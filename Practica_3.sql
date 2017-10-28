@@ -1,252 +1,300 @@
-USE [master]
-GO
-/****** Object:  Database [Colegio]    Script Date: 07/10/2017 10:02:28 a.m. ******/
-IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'Colegio')
-BEGIN
-CREATE DATABASE [Colegio]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'Colegio', FILENAME = N'C:\Program Files (x86)\Microsoft SQL Server\MSSQL11.SQLEXPRESS\MSSQL\DATA\Colegio.mdf' , SIZE = 5120KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )
- LOG ON 
-( NAME = N'Colegio_log', FILENAME = N'C:\Program Files (x86)\Microsoft SQL Server\MSSQL11.SQLEXPRESS\MSSQL\DATA\Colegio_log.ldf' , SIZE = 2048KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
-END
+--Correcion de diagrama de la BD
+-- tables
+-- Table: Area
+CREATE TABLE Area (
+    ID int  NOT NULL,
+    Nombre varchar(50)  NOT NULL,
+    Descripcion varchar(500)  NOT NULL,
+    CONSTRAINT Area_pk PRIMARY KEY (ID)
+);
 
-GO
-ALTER DATABASE [Colegio] SET COMPATIBILITY_LEVEL = 110
-GO
-IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
-begin
-EXEC [Colegio].[dbo].[sp_fulltext_database] @action = 'enable'
-end
-GO
-ALTER DATABASE [Colegio] SET ANSI_NULL_DEFAULT OFF 
-GO
-ALTER DATABASE [Colegio] SET ANSI_NULLS OFF 
-GO
-ALTER DATABASE [Colegio] SET ANSI_PADDING OFF 
-GO
-ALTER DATABASE [Colegio] SET ANSI_WARNINGS OFF 
-GO
-ALTER DATABASE [Colegio] SET ARITHABORT OFF 
-GO
-ALTER DATABASE [Colegio] SET AUTO_CLOSE OFF 
-GO
-ALTER DATABASE [Colegio] SET AUTO_CREATE_STATISTICS ON 
-GO
-ALTER DATABASE [Colegio] SET AUTO_SHRINK OFF 
-GO
-ALTER DATABASE [Colegio] SET AUTO_UPDATE_STATISTICS ON 
-GO
-ALTER DATABASE [Colegio] SET CURSOR_CLOSE_ON_COMMIT OFF 
-GO
-ALTER DATABASE [Colegio] SET CURSOR_DEFAULT  GLOBAL 
-GO
-ALTER DATABASE [Colegio] SET CONCAT_NULL_YIELDS_NULL OFF 
-GO
-ALTER DATABASE [Colegio] SET NUMERIC_ROUNDABORT OFF 
-GO
-ALTER DATABASE [Colegio] SET QUOTED_IDENTIFIER OFF 
-GO
-ALTER DATABASE [Colegio] SET RECURSIVE_TRIGGERS OFF 
-GO
-ALTER DATABASE [Colegio] SET  DISABLE_BROKER 
-GO
-ALTER DATABASE [Colegio] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
-GO
-ALTER DATABASE [Colegio] SET DATE_CORRELATION_OPTIMIZATION OFF 
-GO
-ALTER DATABASE [Colegio] SET TRUSTWORTHY OFF 
-GO
-ALTER DATABASE [Colegio] SET ALLOW_SNAPSHOT_ISOLATION OFF 
-GO
-ALTER DATABASE [Colegio] SET PARAMETERIZATION SIMPLE 
-GO
-ALTER DATABASE [Colegio] SET READ_COMMITTED_SNAPSHOT OFF 
-GO
-ALTER DATABASE [Colegio] SET HONOR_BROKER_PRIORITY OFF 
-GO
-ALTER DATABASE [Colegio] SET RECOVERY SIMPLE 
-GO
-ALTER DATABASE [Colegio] SET  MULTI_USER 
-GO
-ALTER DATABASE [Colegio] SET PAGE_VERIFY CHECKSUM  
-GO
-ALTER DATABASE [Colegio] SET DB_CHAINING OFF 
-GO
-ALTER DATABASE [Colegio] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
-GO
-ALTER DATABASE [Colegio] SET TARGET_RECOVERY_TIME = 0 SECONDS 
-GO
-USE [Colegio]
-GO
-/****** Object:  Table [dbo].[Aula]    Script Date: 07/10/2017 10:02:28 a.m. ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Aula]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[Aula](
-	[Numero_aula] [uniqueidentifier] NOT NULL,
-	[Capacidad] [bigint] NOT NULL,
-	[Tipo] [varchar](50) NOT NULL,
- CONSTRAINT [PK_Aula] PRIMARY KEY CLUSTERED 
-(
-	[Numero_aula] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-END
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Object:  Table [dbo].[Curso1]    Script Date: 07/10/2017 10:02:28 a.m. ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Curso1]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[Curso1](
-	[Id_curso] [uniqueidentifier] NOT NULL,
-	[Id_materia] [uniqueidentifier] NOT NULL,
-	[Id_horario] [uniqueidentifier] NOT NULL,
-	[Id_estudiantes] [uniqueidentifier] NOT NULL,
-	[Id_aula] [uniqueidentifier] NOT NULL,
-	[Id_maestro] [uniqueidentifier] NULL,
- CONSTRAINT [PK_Curso1] PRIMARY KEY CLUSTERED 
-(
-	[Id_curso] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-END
-GO
-/****** Object:  Table [dbo].[Empleado]    Script Date: 07/10/2017 10:02:28 a.m. ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Empleado]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[Empleado](
-	[Id_empleado] [uniqueidentifier] NOT NULL,
- CONSTRAINT [PK_Empleado] PRIMARY KEY CLUSTERED 
-(
-	[Id_empleado] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-END
-GO
-/****** Object:  Table [dbo].[Estudiante]    Script Date: 07/10/2017 10:02:28 a.m. ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Estudiante]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[Estudiante](
-	[Matricula] [uniqueidentifier] NOT NULL,
-	[Nombres] [varchar](50) NOT NULL,
-	[Apellido_paterno] [varchar](50) NOT NULL,
-	[Apellido_materno] [varchar](50) NOT NULL,
-	[Correo] [varchar](50) NOT NULL,
-	[Telefono] [tinyint] NOT NULL,
-	[Fecha_ingreso] [datetime] NOT NULL,
-	[Colonia] [varchar](50) NOT NULL,
-	[Numero] [smallint] NOT NULL,
-	[Calle] [nchar](50) NOT NULL,
-	[Fecha_nacimiento] [datetime] NOT NULL,
-	[Edad] [tinyint] NOT NULL,
-	[Semestre] [tinyint] NOT NULL,
- CONSTRAINT [PK_Estudiante] PRIMARY KEY CLUSTERED 
-(
-	[Matricula] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-END
-GO
-SET ANSI_PADDING OFF
-GO
-/****** Object:  Table [dbo].[Horario]    Script Date: 07/10/2017 10:02:28 a.m. ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Horario]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[Horario](
-	[Id_horario] [uniqueidentifier] NOT NULL,
-	[Hora_inicio] [datetime] NOT NULL,
-	[Hora_fin] [datetime] NOT NULL,
- CONSTRAINT [PK_Horario] PRIMARY KEY CLUSTERED 
-(
-	[Id_horario] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-END
-GO
-/****** Object:  Table [dbo].[Materia]    Script Date: 07/10/2017 10:02:28 a.m. ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_PADDING ON
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Materia]') AND type in (N'U'))
-BEGIN
-CREATE TABLE [dbo].[Materia](
-	[Id_materia] [uniqueidentifier] NOT NULL,
-	[Hora_semanales] [varchar](50) NOT NULL,
-	[Semestre] [tinyint] NOT NULL,
-	[Creditos] [bigint] NOT NULL,
- CONSTRAINT [PK_Materia] PRIMARY KEY CLUSTERED 
-(
-	[Id_materia] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-END
-GO
-SET ANSI_PADDING OFF
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Curso1_Aula]') AND parent_object_id = OBJECT_ID(N'[dbo].[Curso1]'))
-ALTER TABLE [dbo].[Curso1]  WITH CHECK ADD  CONSTRAINT [FK_Curso1_Aula] FOREIGN KEY([Id_aula])
-REFERENCES [dbo].[Aula] ([Numero_aula])
-GO
-IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Curso1_Aula]') AND parent_object_id = OBJECT_ID(N'[dbo].[Curso1]'))
-ALTER TABLE [dbo].[Curso1] CHECK CONSTRAINT [FK_Curso1_Aula]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Curso1_Empleado]') AND parent_object_id = OBJECT_ID(N'[dbo].[Curso1]'))
-ALTER TABLE [dbo].[Curso1]  WITH CHECK ADD  CONSTRAINT [FK_Curso1_Empleado] FOREIGN KEY([Id_maestro])
-REFERENCES [dbo].[Empleado] ([Id_empleado])
-GO
-IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Curso1_Empleado]') AND parent_object_id = OBJECT_ID(N'[dbo].[Curso1]'))
-ALTER TABLE [dbo].[Curso1] CHECK CONSTRAINT [FK_Curso1_Empleado]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Curso1_Estudiante]') AND parent_object_id = OBJECT_ID(N'[dbo].[Curso1]'))
-ALTER TABLE [dbo].[Curso1]  WITH CHECK ADD  CONSTRAINT [FK_Curso1_Estudiante] FOREIGN KEY([Id_estudiantes])
-REFERENCES [dbo].[Estudiante] ([Matricula])
-GO
-IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Curso1_Estudiante]') AND parent_object_id = OBJECT_ID(N'[dbo].[Curso1]'))
-ALTER TABLE [dbo].[Curso1] CHECK CONSTRAINT [FK_Curso1_Estudiante]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Curso1_Horario]') AND parent_object_id = OBJECT_ID(N'[dbo].[Curso1]'))
-ALTER TABLE [dbo].[Curso1]  WITH CHECK ADD  CONSTRAINT [FK_Curso1_Horario] FOREIGN KEY([Id_horario])
-REFERENCES [dbo].[Horario] ([Id_horario])
-GO
-IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Curso1_Horario]') AND parent_object_id = OBJECT_ID(N'[dbo].[Curso1]'))
-ALTER TABLE [dbo].[Curso1] CHECK CONSTRAINT [FK_Curso1_Horario]
-GO
-IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Curso1_Materia]') AND parent_object_id = OBJECT_ID(N'[dbo].[Curso1]'))
-ALTER TABLE [dbo].[Curso1]  WITH CHECK ADD  CONSTRAINT [FK_Curso1_Materia] FOREIGN KEY([Id_materia])
-REFERENCES [dbo].[Materia] ([Id_materia])
-GO
-IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Curso1_Materia]') AND parent_object_id = OBJECT_ID(N'[dbo].[Curso1]'))
-ALTER TABLE [dbo].[Curso1] CHECK CONSTRAINT [FK_Curso1_Materia]
-GO
-USE [master]
-GO
-ALTER DATABASE [Colegio] SET  READ_WRITE 
-GO
+-- Table: Aula
+CREATE TABLE Aula (
+    Numero int  NOT NULL,
+    Capacidad smallint  NOT NULL,
+    Tipo varchar(50)  NOT NULL,
+    CONSTRAINT Aula_pk PRIMARY KEY (Numero)
+);
+
+-- Table: Candidato
+CREATE TABLE Candidato (
+    ID int  NOT NULL,
+    Nombre varchar(70)  NOT NULL,
+    Apellido_Paterno varchar(40)  NOT NULL,
+    Apellido_Materno varchar(40)  NULL,
+    Correo varchar(100)  NOT NULL,
+    Calle varchar(100)  NOT NULL,
+    Numero int  NOT NULL,
+    Colonia varchar(100)  NOT NULL,
+    Fecha_nacimiento Date  NOT NULL,
+    Fecha_solicitud Date  NOT NULL,
+    Estatus_ID int  NOT NULL,
+    CONSTRAINT Candidato_pk PRIMARY KEY (ID)
+);
+
+-- Table: Cuenta_Estudiante
+CREATE TABLE Cuenta_Estudiante (
+    contrasena varchar(50)  NOT NULL,
+    Estudiante_Matricula int  NOT NULL,
+    CONSTRAINT Cuenta_Estudiante_pk PRIMARY KEY (contrasena,Estudiante_Matricula)
+);
+
+-- Table: Cuenta_profesor
+CREATE TABLE Cuenta_profesor (
+    contrasena varchar(50)  NOT NULL,
+    Profesor_Empleado_No_empleado int  NOT NULL,
+    CONSTRAINT Cuenta_profesor_pk PRIMARY KEY (contrasena,Profesor_Empleado_No_empleado)
+);
+
+-- Table: Curso
+CREATE TABLE Curso (
+    Clave int  NOT NULL,
+    Materia_Clave int  NOT NULL,
+    Aula_Numero int  NOT NULL,
+    Profesor_Empleado_No_empleado int  NOT NULL,
+    CONSTRAINT Curso_pk PRIMARY KEY (Clave)
+);
+
+-- Table: Curso_Horario
+CREATE TABLE Curso_Horario (
+    Curso_Clave int  NOT NULL,
+    Horario_Clave int  NOT NULL,
+    CONSTRAINT Curso_Horario_pk PRIMARY KEY (Curso_Clave,Horario_Clave)
+);
+
+-- Table: Empleado
+CREATE TABLE Empleado (
+    No_empleado int  NOT NULL,
+    Nombre varchar(70)  NOT NULL,
+    Apellido_Paterno varchar(40)  NOT NULL,
+    Apellido_Materno varchar(40)  NULL,
+    Fecha_Ingreso Date  NOT NULL,
+    Calle varchar(100)  NOT NULL,
+    Numero int  NOT NULL,
+    Colonia varchar(100)  NOT NULL,
+    Fecha_nacimiento Date  NOT NULL,
+    CONSTRAINT Empleado_pk PRIMARY KEY (No_empleado)
+);
+
+-- Table: Estatus
+CREATE TABLE Estatus (
+    ID int  NOT NULL,
+    Nombre varchar(50)  NOT NULL,
+    Descripcion varchar(500)  NOT NULL,
+    Tipo varchar(25)  NOT NULL,
+    CONSTRAINT Estatus_pk PRIMARY KEY (ID)
+);
+
+-- Table: Estudiante
+CREATE TABLE Estudiante (
+    Matricula int  NOT NULL,
+    Nombre varchar(70)  NOT NULL,
+    Apellido_Paterno varchar(40)  NOT NULL,
+    Apellido_Materno varchar(40)  NULL,
+    Correo varchar(100)  NOT NULL,
+    Fecha_ingreso Date  NOT NULL,
+    Calle varchar(100)  NOT NULL,
+    Numero int  NOT NULL,
+    Colonia varchar(100)  NOT NULL,
+    Fecha_nacimiento Date  NOT NULL,
+    Estatus_ID int  NOT NULL,
+    CONSTRAINT Estudiante_pk PRIMARY KEY (Matricula)
+);
+
+-- Table: Grupo
+CREATE TABLE Grupo (
+    Calificacion numeric(4,2)  NULL,
+    Curso_Clave int  NOT NULL,
+    Estudiante_Matricula int  NOT NULL,
+    CONSTRAINT Grupo_pk PRIMARY KEY (Curso_Clave)
+);
+
+-- Table: Horario
+CREATE TABLE Horario (
+    Clave int  NOT NULL,
+    Hora_inicio Time  NOT NULL,
+    Hora_fin Time  NOT NULL,
+    Dia varchar(15)  NOT NULL,
+    CONSTRAINT Horario_pk PRIMARY KEY (Clave)
+);
+
+-- Table: Inscripcion
+CREATE TABLE Inscripcion (
+    Candidato_ID int  NOT NULL,
+    ID int  NOT NULL,
+    CONSTRAINT Inscripcion_pk PRIMARY KEY (ID)
+);
+
+-- Table: Materia
+CREATE TABLE Materia (
+    Clave int  NOT NULL,
+    Hora_semanal smallint  NOT NULL,
+    Semestre smallint  NOT NULL,
+    Creditos smallint  NOT NULL,
+    Area_ID int  NOT NULL,
+    CONSTRAINT Materia_pk PRIMARY KEY (Clave)
+);
+
+-- Table: Pagos
+CREATE TABLE Pagos (
+    Inscripcion_ID int  NOT NULL,
+    ID int  NOT NULL,
+    Cantidad money  NOT NULL,
+    Tipo_pago_Nombre varchar(50)  NOT NULL,
+    CONSTRAINT Pagos_pk PRIMARY KEY (ID)
+);
+
+-- Table: Profesor
+CREATE TABLE Profesor (
+    Estatus_ID int  NOT NULL,
+    Area_ID int  NOT NULL,
+    Empleado_No_empleado int  NOT NULL,
+    Titulo varchar(100)  NOT NULL,
+    CONSTRAINT Profesor_pk PRIMARY KEY (Empleado_No_empleado)
+);
+
+-- Table: Telefono_empleado
+CREATE TABLE Telefono_empleado (
+    Numero int  NOT NULL,
+    Empleado_No_empleado int  NOT NULL,
+    Tipo varchar(20)  NOT NULL,
+    CONSTRAINT Telefono_empleado_pk PRIMARY KEY (Numero,Empleado_No_empleado)
+);
+
+-- Table: Telefono_estudiante
+CREATE TABLE Telefono_estudiante (
+    Numero int  NOT NULL,
+    Estudiante_Matricula int  NOT NULL,
+    Tipo varchar(20)  NOT NULL,
+    CONSTRAINT Telefono_estudiante_pk PRIMARY KEY (Numero,Estudiante_Matricula)
+);
+
+-- Table: Tipo_pago
+CREATE TABLE Tipo_pago (
+    Nombre varchar(50)  NOT NULL,
+    Descripcion varchar(150)  NOT NULL,
+    CONSTRAINT Tipo_pago_pk PRIMARY KEY (Nombre)
+);
+
+-- foreign keys
+-- Reference: Candidato_Estatus (table: Candidato)
+ALTER TABLE Candidato ADD CONSTRAINT Candidato_Estatus
+    FOREIGN KEY (Estatus_ID)
+    REFERENCES Estatus (ID)  
+;
+
+-- Reference: Cuenta_Estudiante_Estudiante (table: Cuenta_Estudiante)
+ALTER TABLE Cuenta_Estudiante ADD CONSTRAINT Cuenta_Estudiante_Estudiante
+    FOREIGN KEY (Estudiante_Matricula)
+    REFERENCES Estudiante (Matricula)  
+;
+
+-- Reference: Cuenta_profesor_Profesor (table: Cuenta_profesor)
+ALTER TABLE Cuenta_profesor ADD CONSTRAINT Cuenta_profesor_Profesor
+    FOREIGN KEY (Profesor_Empleado_No_empleado)
+    REFERENCES Profesor (Empleado_No_empleado)  
+;
+
+-- Reference: Curso_Aula (table: Curso)
+ALTER TABLE Curso ADD CONSTRAINT Curso_Aula
+    FOREIGN KEY (Aula_Numero)
+    REFERENCES Aula (Numero)  
+;
+
+-- Reference: Curso_Horario_Curso (table: Curso_Horario)
+ALTER TABLE Curso_Horario ADD CONSTRAINT Curso_Horario_Curso
+    FOREIGN KEY (Curso_Clave)
+    REFERENCES Curso (Clave)  
+;
+
+-- Reference: Curso_Horario_Horario (table: Curso_Horario)
+ALTER TABLE Curso_Horario ADD CONSTRAINT Curso_Horario_Horario
+    FOREIGN KEY (Horario_Clave)
+    REFERENCES Horario (Clave)  
+;
+
+-- Reference: Curso_Materia (table: Curso)
+ALTER TABLE Curso ADD CONSTRAINT Curso_Materia
+    FOREIGN KEY (Materia_Clave)
+    REFERENCES Materia (Clave)  
+;
+
+-- Reference: Curso_Profesor (table: Curso)
+ALTER TABLE Curso ADD CONSTRAINT Curso_Profesor
+    FOREIGN KEY (Profesor_Empleado_No_empleado)
+    REFERENCES Profesor (Empleado_No_empleado)  
+;
+
+-- Reference: Estudiante_Estatus (table: Estudiante)
+ALTER TABLE Estudiante ADD CONSTRAINT Estudiante_Estatus
+    FOREIGN KEY (Estatus_ID)
+    REFERENCES Estatus (ID)  
+;
+
+-- Reference: Grupo_Estudiante (table: Grupo)
+ALTER TABLE Grupo ADD CONSTRAINT Grupo_Estudiante
+    FOREIGN KEY (Estudiante_Matricula)
+    REFERENCES Estudiante (Matricula)  
+;
+
+-- Reference: Inscripcion_Curso (table: Grupo)
+ALTER TABLE Grupo ADD CONSTRAINT Inscripcion_Curso
+    FOREIGN KEY (Curso_Clave)
+    REFERENCES Curso (Clave)  
+;
+
+-- Reference: Materia_Area (table: Materia)
+ALTER TABLE Materia ADD CONSTRAINT Materia_Area
+    FOREIGN KEY (Area_ID)
+    REFERENCES Area (ID)  
+;
+
+-- Reference: Pagos_Inscripcion (table: Pagos)
+ALTER TABLE Pagos ADD CONSTRAINT Pagos_Inscripcion
+    FOREIGN KEY (Inscripcion_ID)
+    REFERENCES Inscripcion (ID)  
+;
+
+-- Reference: Pagos_Tipo_pago (table: Pagos)
+ALTER TABLE Pagos ADD CONSTRAINT Pagos_Tipo_pago
+    FOREIGN KEY (Tipo_pago_Nombre)
+    REFERENCES Tipo_pago (Nombre)  
+;
+
+-- Reference: Profesor_Area (table: Profesor)
+ALTER TABLE Profesor ADD CONSTRAINT Profesor_Area
+    FOREIGN KEY (Area_ID)
+    REFERENCES Area (ID)  
+;
+
+-- Reference: Profesor_Empleado (table: Profesor)
+ALTER TABLE Profesor ADD CONSTRAINT Profesor_Empleado
+    FOREIGN KEY (Empleado_No_empleado)
+    REFERENCES Empleado (No_empleado)  
+;
+
+-- Reference: Profesor_Estatus (table: Profesor)
+ALTER TABLE Profesor ADD CONSTRAINT Profesor_Estatus
+    FOREIGN KEY (Estatus_ID)
+    REFERENCES Estatus (ID)  
+;
+
+-- Reference: Telefono_empleado_Empleado (table: Telefono_empleado)
+ALTER TABLE Telefono_empleado ADD CONSTRAINT Telefono_empleado_Empleado
+    FOREIGN KEY (Empleado_No_empleado)
+    REFERENCES Empleado (No_empleado)  
+;
+
+-- Reference: Telefono_estudiante_Estudiante (table: Telefono_estudiante)
+ALTER TABLE Telefono_estudiante ADD CONSTRAINT Telefono_estudiante_Estudiante
+    FOREIGN KEY (Estudiante_Matricula)
+    REFERENCES Estudiante (Matricula)  
+;
+
+-- Reference: Venta_Candidato (table: Inscripcion)
+ALTER TABLE Inscripcion ADD CONSTRAINT Venta_Candidato
+    FOREIGN KEY (Candidato_ID)
+    REFERENCES Candidato (ID)
+;
+
+-- End of file.
